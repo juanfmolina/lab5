@@ -10,7 +10,9 @@ definicion de la estructura cuenta y la implementacion de sus métodos
 #include <string.h>
 #include <time.h>
 #include <pthread.h>
-#include<math.h>
+#include <math.h>
+#include <semaphore.h>
+
 
 int numeroHilos; int tiempoEjecucion; int numeroCuentas; int valorInicial;
  
@@ -33,22 +35,30 @@ tiempoEjecucion = atoi(argv[2]);
 numeroCuentas = atoi(argv[3]);
 valorInicial = atoi(argv[4]);
 pthread_t hilos[numeroHilos];
-
-
 struct Cuenta aCuentas[numeroCuentas];
 sem_t sema [numeroCuentas];
+//Creando las cuentas...
+
+
 	int i=0;
 	for(i=0;i<numeroCuentas;i++){
 		aCuentas[i].idCuenta= i;
 		aCuentas[i].saldo=valorInicial;
 	};
+//Inicializacion de semaforos.
+	for(i=0;i<numeroCuentas;i++){
+		sem_init(&sema[i], 0, 1);
+	};
+//Aquí se asigna el array de cuentas a la varible global.
 pCuentas=&aCuentas[0];
-
+//Creando los hilos...
 for(i=0; i<numeroHilos; i++){
 	if(pthread_create(&hilos[i], NULL, transferir, NULL)!=0){
 		printf("Error al crear el Hilo");
 	}
 }
+
+
 
 
 for(i=0; i<numeroHilos; i++){
@@ -65,7 +75,7 @@ void * transferir(void * parametros){
 	int ordenante =rand()%numeroCuentas;
 	int beneficiario=rand()%numeroCuentas;
 	while(bebeficiario==ordenante) beneficiario=rand()%numeroCuentas;
-	if(ordenante==beneficiario);
+	
 
 
 }
