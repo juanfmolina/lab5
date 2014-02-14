@@ -13,4 +13,12 @@ Problemas:
 
 -Teniamos problema para inicializar el array de cuentas sin conocer el numero inicial, se crea una variable global que apunte al array creado en el main.
 -Se tiene un problema con la escogencia de la herramienta para los problemas de sincronización, se escogen semaforos.
+- Hay un problema con deadlock, no hemos podido encontrar la solución, hemos hecho la siguiente implementación con los semaforos:
+		sem_wait(&semaforos[beneficiario]);
+		sem_wait(&semaforos[ordenante]);
+		//código dentro de la espera
+		sem_post(&semaforos[beneficiario]);
+		sem_post(&semaforos[ordenante]);
+Esperamos solucionarlo pronto		
+
 
