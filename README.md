@@ -23,4 +23,18 @@ Problemas:
 		sem_post(&semaforos[ordenante]);
 Para la solución a este problema, cambiamos la funcion   int sem_wait(sem_t *sem); por la función  int sem_trywait(sem_t *sem); la diferencia es que si el decremento no pude ser realizado inmediatamente, entonces la llamada retorna error en vez de bloquear el hilo.
 
+- Existe un problema cuando se ejecuta el programa; a veces, el balance general está siendo mayor o menor, también las cuentas no están en el rango pedido, como si existiese un overflow:
+
+	Cuenta 0 tiene un saldo de 10
+	Cuenta 1 tiene un saldo de 27080482
+	Cuenta 2 tiene un saldo de 3483267
+	Cuenta 3 tiene un saldo de -454665138
+	Cuenta 4 tiene un saldo de 2
+	Cuenta 5 tiene un saldo de 120
+	Cuenta 6 tiene un saldo de 130264460
+	Cuenta 7 tiene un saldo de 4
+	Cuenta 8 tiene un saldo de 6566808
+	Cuenta 9 tiene un saldo de 287271327
+	Balance general: 1342
+
 
