@@ -12,13 +12,15 @@ La estrategia de solución inicial es la siguiente:
 Problemas:
 
 -Teniamos problema para inicializar el array de cuentas sin conocer el numero inicial, se crea una variable global que apunte al array creado en el main.
+
 -Se tiene un problema con la escogencia de la herramienta para los problemas de sincronización, se escogen semaforos.
+
 - Hay un problema con deadlock, no hemos podido encontrar la solución, hemos hecho la siguiente implementación con los semaforos:
 		sem_wait(&semaforos[beneficiario]);
 		sem_wait(&semaforos[ordenante]);
 		//código dentro de la espera
 		sem_post(&semaforos[beneficiario]);
 		sem_post(&semaforos[ordenante]);
-Esperamos solucionarlo pronto		
+Para la solución a este problema, cambiamos la funcion   int sem_wait(sem_t *sem); por la función  int sem_trywait(sem_t *sem); la diferencia es que si el decremento no pude ser realizado inmediatamente, entonces la llamada retorna error en vez de bloquear el hilo.
 
 
