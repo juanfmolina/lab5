@@ -60,25 +60,24 @@ for(i=0; i<numeroHilos; i++){
 		printf("Error al crear el Hilo");
 	}
 }
-
-//sleep(tiempoEjecucion);
-bandera=1;
-
-
+//Esperando los hilos
 for(i=0; i<numeroHilos; i++){
 	pthread_join(hilos[i], NULL);
 }
+
+int balanceGeneral=0;
 for(i=0; i<numeroCuentas; i++){
 	printf("Cuenta %d tiene un saldo de %d\n", pCuentas[i].idCuenta, pCuentas[i].saldo);
+	balanceGeneral+= pCuentas[i].saldo;
 }
-
+printf("Balance general: %d\n", balanceGeneral);
 
 
 return 0;
 }
 
 void * transferir(void * parametros){
-	int hilo= *((int *)parametros) ;
+	//int hilo= *((int *)parametros) ;
 	srand(time(NULL));
 	int i;
 	for(i=0; i<= tiempoEjecucion; i++){
@@ -86,13 +85,13 @@ void * transferir(void * parametros){
 		int ordenante =rand()%numeroCuentas;
 		int beneficiario=rand()%numeroCuentas;
 		while(beneficiario==ordenante) beneficiario=rand()%numeroCuentas;
-		sem_wait(&semaforos[beneficiario]);
-		sem_wait(&semaforos[ordenante]);		
+		sem_trywait(&semaforos[beneficiario]);
+		sem_trywait(&semaforos[ordenante]);		
 		int monto= rand() % pCuentas[ordenante].saldo;
 		pCuentas[ordenante].saldo-=monto;
 		pCuentas[beneficiario].saldo+=monto;
-		printf("Hilo %d\n Monto a transferir %d\nBeneficiario %d -> Saldo %d\nOrdenante %d ->Saldo %d\n",hilo, monto,
-		 pCuentas[beneficiario].idCuenta,pCuentas[beneficiario].saldo, pCuentas[ordenante].idCuenta,pCuentas[ordenante].saldo);
+		//printf("Hilo %d\n Monto a transferir %d\nBeneficiario %d -> Saldo %d\nOrdenante %d ->Saldo %d\n",hilo, monto,
+		// pCuentas[beneficiario].idCuenta,pCuentas[beneficiario].saldo, pCuentas[ordenante].idCuenta,pCuentas[ordenante].saldo);
 		sem_post(&semaforos[beneficiario]);
 		sem_post(&semaforos[ordenante]);
 		
