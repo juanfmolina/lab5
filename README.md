@@ -37,4 +37,14 @@ Para la solución a este problema, cambiamos la funcion   int sem_wait(sem_t *se
 	Cuenta 9 tiene un saldo de 287271327
 	Balance general: 1342
 
-- Existen problemas para concatenar char, nombre del problema: "segmentation fault"
+- Existen problemas para concatenar char, nombre del problema: "segmentation fault", ya no existe este problema.
+
+- En el programa de prueba, existe un problema de desbordamiento del buffer:
+
+*** stack smashing detected ***: ./programa terminated
+
+Parece ser que el buffer está leyendo más caracteres de lo que puede leer.
+
+La solución parcial a este problema es declaras un char con un numero fijo de caracteres.
+
+
