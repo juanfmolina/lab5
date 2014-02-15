@@ -37,4 +37,4 @@ Para la solución a este problema, cambiamos la funcion   int sem_wait(sem_t *se
 	Cuenta 9 tiene un saldo de 287271327
 	Balance general: 1342
 
-
+- Existen problemas para concatenar char, nombre del problema: "segmentation fault"
