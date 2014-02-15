@@ -11,9 +11,9 @@ La estrategia de solución inicial es la siguiente:
 
 Problemas:
 
--Teniamos problema para inicializar el array de cuentas sin conocer el numero inicial, se crea una variable global que apunte al array creado en el main.
+- Teniamos problema para inicializar el array de cuentas sin conocer el numero inicial, se crea una variable global que apunte al array creado en el main.
 
--Se tiene un problema con la escogencia de la herramienta para los problemas de sincronización, se escogen semaforos.
+- Se tiene un problema con la escogencia de la herramienta para los problemas de sincronización, se escogen semaforos.
 
 - Hay un problema con deadlock, no hemos podido encontrar la solución, hemos hecho la siguiente implementación con los semaforos:
 		sem_wait(&semaforos[beneficiario]);
