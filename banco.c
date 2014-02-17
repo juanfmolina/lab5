@@ -64,6 +64,9 @@ for(i=0; i<numeroHilos; i++){
 for(i=0; i<numeroHilos; i++){
 	pthread_join(hilos[i], NULL);
 }
+for(i=0; i<numeroCuentas; i++){
+	sem_destroy(&semaforos[i]);
+}
 
 int balanceGeneral=0;
 for(i=0; i<numeroCuentas; i++){
@@ -85,17 +88,22 @@ void * transferir(void * parametros){
 		int ordenante =rand()%numeroCuentas;
 		int beneficiario=rand()%numeroCuentas;
 		while(beneficiario==ordenante) beneficiario=rand()%numeroCuentas;
-		if(sem_trywait(&semaforos[beneficiario])== 0 && sem_trywait(&semaforos[ordenante])== 0){
-			int monto= rand() % pCuentas[ordenante].saldo;
-			pCuentas[ordenante].saldo-=monto;
-			pCuentas[beneficiario].saldo+=monto;
-			/*printf("Hilo %d\n Monto a transferir %d\nBeneficiario %d -> Saldo %d\nOrdenante %d ->Saldo %d\n",hilo, monto,
-			pCuentas[beneficiario].idCuenta,pCuentas[beneficiario].saldo, pCuentas[ordenante].idCuenta,pCuentas[ordenante].saldo);*/
-			sem_post(&semaforos[ordenante]);
-			sem_post(&semaforos[beneficiario]);
+		if(sem_trywait(&semaforos[beneficiario])== 0 ) {
+			if(sem_trywait(&semaforos[ordenante])== 0){
+				int monto= rand() % pCuentas[ordenante].saldo;
+				pCuentas[ordenante].saldo-=monto;
+				pCuentas[beneficiario].saldo+=monto;
+				/*printf("Hilo %d\n Monto a transferir %d\nBeneficiario %d -> Saldo %d\nOrdenante %d ->Saldo %d\n",hilo, monto,
+				pCuentas[beneficiario].idCuenta,pCuentas[beneficiario].saldo, pCuentas[ordenante].idCuenta,pCuentas[ordenante].saldo);*/
+				sem_post(&semaforos[ordenante]);
+				sem_post(&semaforos[beneficiario]);
+			}else{
+				sem_post(&semaforos[beneficiario]);
+			}
 		}
-		
 	}
+		
+
 	return NULL;
 
 
