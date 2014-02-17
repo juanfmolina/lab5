@@ -85,20 +85,21 @@ void * transferir(void * parametros){
 		int ordenante =rand()%numeroCuentas;
 		int beneficiario=rand()%numeroCuentas;
 		while(beneficiario==ordenante) beneficiario=rand()%numeroCuentas;
-		sem_trywait(&semaforos[beneficiario]);
-		sem_trywait(&semaforos[ordenante]);		
-		int monto= rand() % pCuentas[ordenante].saldo;
-		pCuentas[ordenante].saldo-=monto;
-		pCuentas[beneficiario].saldo+=monto;
-		//printf("Hilo %d\n Monto a transferir %d\nBeneficiario %d -> Saldo %d\nOrdenante %d ->Saldo %d\n",hilo, monto,
-		// pCuentas[beneficiario].idCuenta,pCuentas[beneficiario].saldo, pCuentas[ordenante].idCuenta,pCuentas[ordenante].saldo);
-		sem_post(&semaforos[beneficiario]);
-		sem_post(&semaforos[ordenante]);
+		if(sem_trywait(&semaforos[beneficiario])== 0 && sem_trywait(&semaforos[ordenante])== 0){
+			int monto= rand() % pCuentas[ordenante].saldo;
+			pCuentas[ordenante].saldo-=monto;
+			pCuentas[beneficiario].saldo+=monto;
+			/*printf("Hilo %d\n Monto a transferir %d\nBeneficiario %d -> Saldo %d\nOrdenante %d ->Saldo %d\n",hilo, monto,
+			pCuentas[beneficiario].idCuenta,pCuentas[beneficiario].saldo, pCuentas[ordenante].idCuenta,pCuentas[ordenante].saldo);*/
+			sem_post(&semaforos[ordenante]);
+			sem_post(&semaforos[beneficiario]);
+		}
 		
 	}
 	return NULL;
 
 
 }
+
 
 

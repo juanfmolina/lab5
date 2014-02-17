@@ -17,9 +17,9 @@ int main(int argc, char *argv[]){
 		return 0;
 	}
 	
-	char linea[20]="";
+	char linea[200]="";
 	char vector[20]="";
-	while(fgets(linea,20,ficheroVectores)!= NULL){
+	while(fgets(linea,200,ficheroVectores)!= NULL){
 		strncpy(vector,linea, strlen(linea)-1); 
 		char * prueba;
 		char parametros[50]="";
@@ -65,18 +65,24 @@ int main(int argc, char *argv[]){
 				char fcontent [100];
 				char faux[100];
 				ficheroSalida=fopen("out.txt", "r");
-				while(fgets(fcontent, 100, ficheroSalida)!= NULL){
-					strncpy(faux, fcontent, strlen(fcontent));
+				if(ficheroSalida!= NULL){
+					while(fgets(fcontent, 100, ficheroSalida)!= NULL){
+						strncpy(faux, fcontent, strlen(fcontent));
+					}
+					fclose(ficheroSalida);
+					char *balance;
+					balance = strtok(faux, "Balance general: ");
+					char charBalance [20];
+					strncpy(charBalance, balance, strlen(balance)-1);
+					balanceGeneral= atoi(charBalance);
+					if(balanceGeneral==(numeroCuentas*valorInicial)) aciertos++;
+					else fallos++;
+				}else{
+					fallos++;
 				}
-				fclose(ficheroSalida);
-				char *balance;
-				balance = strtok(faux, "Balance general: ");
-				char charBalance [20];
-				strncpy(charBalance, balance, strlen(balance)-1);
-				balanceGeneral= atoi(charBalance);
-				if(balanceGeneral==(numeroCuentas*valorInicial)) aciertos++;
-				else fallos++;
-		}
+				system("rm out.txt");	
+                                strcpy(comando, "");
+                        }
 		printf("Vector %s tuvo %d fallos y %d aciertos.\n", vector, fallos, aciertos);
 		
 	}
@@ -85,3 +91,4 @@ int main(int argc, char *argv[]){
 	return 0;	
 	
 } 
+

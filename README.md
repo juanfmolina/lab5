@@ -47,4 +47,6 @@ Parece ser que el buffer está leyendo más caracteres de lo que puede leer.
 
 La solución parcial a este problema es declaras un char con un numero fijo de caracteres.
 
+- La solución fué leer el archivo linea por linea. 
 
+- Surgió un error en el programa banco.c, cuando se asignaba mucho tiempo de ejecución, el resultado del balance generál era muy variable, incluso, algunas veces negativo. El problema se daba debido a un mal uso de la función sem_trywait, el programa trataba de esperar el semáforo, si no lo esperaba entonces el programa seguía con la ejecución, la solución fue mirar si la espera de los semáforos era válida para poder siguir con la ejecución.
